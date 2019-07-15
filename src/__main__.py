@@ -11,10 +11,10 @@ import itchat
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 parser = argparse.ArgumentParser(description='greet-girlfriend')
-parser.add_argument('-n', '--name', required=True, help='Please echo girl-name')
+parser.add_argument('-u', '--username', required=True, help='Please echo girl-name')
 
 
-def greet_girlfriend(name, message):
+def greet_girl(name, message):
     try:
         girlfriend = itchat.search_friends(name=name)[0]
     except IndexError:
@@ -30,8 +30,8 @@ if __name__ == '__main__':
     scheduler = BlockingScheduler()
 
     # Todo 每次随机时间段，随机问候语
-    scheduler.add_job(greet_girlfriend, 'cron', hour=7, minute=0, args=[args.name, '早安, 宝贝'])
-    scheduler.add_job(greet_girlfriend, 'cron', hour=23, minute=0, args=[args.name, '晚安, 宝贝'])
+    scheduler.add_job(greet_girl, 'cron', hour=7, minute=0, args=[args.name, '早安, 宝贝'])
+    scheduler.add_job(greet_girl, 'cron', hour=23, minute=0, args=[args.name, '晚安, 宝贝'])
 
     try:
         scheduler.start()
