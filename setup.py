@@ -15,7 +15,7 @@ with open("requirements.txt") as f:
 
 setuptools.setup(
     name="greet-girl",
-    version="0.0.1",
+    version="1.0.0",
     author="itswcg",
     author_email="itswcg@gmail.com",
     description="Time of greeting girl on WeChat",
@@ -30,4 +30,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    entry_points={
+        'console_scripts': [
+            'greet-girl = src.__main__:main'
+        ],
+    }
 )

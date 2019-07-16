@@ -10,30 +10,35 @@ import argparse
 import itchat
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-parser = argparse.ArgumentParser(description='greet-girlfriend')
-parser.add_argument('-u', '--username', required=True, help='Please echo girl-name')
+parser = argparse.ArgumentParser(description='greet-girl')
+parser.add_argument('-w', '--wechatAccount', required=True, help='Please echo girl wechatAccount')
+parser.add_argument('-H', '--hour', required=True, help='hour')
+parser.add_argument('-M', '--minute', required=True, help='minute')
+parser.add_argument('-m', '--message', required=True, help='message')
 
 
 def greet_girl(name, message):
     try:
-        girlfriend = itchat.search_friends(name=name)[0]
+        girlfriend = itchat.search_friends(wechatAccount=name)[0]
     except IndexError:
-        print('Girlfriend Not Found')
+        print('Girl Not Found')
     else:
         girlfriend.send(message)
 
 
-if __name__ == '__main__':
+def main():
     args = parser.parse_args()
 
-    itchat.auto_login(hotReload=True, enableCmdQR=2)
+    itchat.auto_login(enableCmdQR=2)
     scheduler = BlockingScheduler()
 
-    # Todo 每次随机时间段，随机问候语
-    scheduler.add_job(greet_girl, 'cron', hour=7, minute=0, args=[args.name, '早安, 宝贝'])
-    scheduler.add_job(greet_girl, 'cron', hour=23, minute=0, args=[args.name, '晚安, 宝贝'])
+    scheduler.add_job(greet_girl, 'cron', hour=args.hour, minute=args.minute, args=[args.wechatAccount, args.message])
 
     try:
         scheduler.start()
-    except:
-        pass
+    except (KeyboardInterrupt, SystemExit):
+        itchat.logout()
+
+
+if __name__ == '__main__':
+    main()

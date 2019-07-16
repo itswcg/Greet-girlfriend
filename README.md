@@ -6,5 +6,7 @@
 ### Usage
 ```bash
 $ python3 -m pip install greet-girl
-$ greet-girl -n <girl-name>
+$ greet-girl -w <girl's wechatAcount> -H <hour> -M <minute> -m <message>
+# example
+$ greet-girl -w mylove -H 7 -M 30 -m 早安 # 每天7.30给mylove发送早安
 ```
